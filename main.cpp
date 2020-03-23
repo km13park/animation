@@ -1,19 +1,17 @@
 #include <SFML\Graphics.hpp>
 #include <iostream>
 #include "Animation.h"
+#include "Player.h"
 
 using namespace sf;
 
 int main()
 {
 	RenderWindow window(VideoMode(512, 512), "SFML Tutorial", Style::Close | Style::Resize);
-	RectangleShape player(Vector2f(100.0f, 150.0f));
-	player.setPosition(206.0f, 206.0f);
 	Texture playerTexture;
 	playerTexture.loadFromFile("tux_from_linux.png");
-	player.setTexture(&playerTexture);
 
-	Animation animation(&playerTexture, Vector2u(3, 9), 0.3f);
+	Player player(&playerTexture, Vector2u(3, 9), 0.3f, 100.0f);
 
 	float deltaTime = 0.0f;
 	Clock clock;
@@ -32,10 +30,9 @@ int main()
 			}
 		}
 
-		animation.Update(0, deltaTime);
-		player.setTextureRect(animation.uvRect);
+		player.Update(deltaTime);
 		window.clear(Color(150, 150, 150));
-		window.draw(player);
+		player.Draw(window);
 		window.display();
 	}
 
